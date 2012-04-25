@@ -38,3 +38,10 @@ func BenchmarkExec(b *testing.B) {
 		p.Execute()
 	}
 }
+
+func BenchmarkPureGo(b *testing.B) {
+	var x float64 = 5.0
+	for i := 0; i < b.N; i++ {
+		_ = 1 / (2 - (3 * (4 + x)))
+	}
+}
