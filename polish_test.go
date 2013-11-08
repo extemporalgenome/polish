@@ -10,15 +10,31 @@ import (
 )
 
 func TestCorrectness(t *testing.T) {
-	instructions := "3 7 + 2 * 4 / 1.5 -"
-	var expect float64 = 3.5
-	t.Log(instructions)
-	if p, err := Parse(strings.Fields(instructions)); err != nil {
+	prog := "3 7 + 2 * 4 / 1.5 -"
+	const expect = 3.5
+	p, err := Parse(strings.Fields(prog))
+	if err != nil {
 		t.Fatal(err)
-	} else if stack := p.Execute(); len(stack) != 1 {
-		t.Fatal("Expected a stack of size 1")
-	} else if stack[0] != expect {
-		t.Fatal("Expected result to be", expect)
+	}
+	stack := p.Execute(nil)
+	if len(stack) != 1 || stack[0] != expect {
+		t.Fatal("Expected", []float64{expect}, "instead of", stack)
+	}
+}
+
+func TestCorrectness_prestack(t *testing.T) {
+	progs := []string{"3 7", "+ 2", "*"}
+	const expect = 20
+	var stack []float64
+	for _, prog := range progs {
+		p, err := Parse(strings.Fields(prog))
+		if err != nil {
+			t.Fatal(err)
+		}
+		stack = p.Execute(stack)
+	}
+	if len(stack) != 1 || stack[0] != expect {
+		t.Fatal("Expected", []float64{expect}, "instead of", stack)
 	}
 }
 
@@ -35,7 +51,7 @@ func BenchmarkExec(b *testing.B) {
 	p, _ := Parse(strings.Fields(instructions))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		p.Execute()
+		p.Execute(nil)
 	}
 }
 
