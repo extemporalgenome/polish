@@ -1,7 +1,7 @@
 # polish
 
-A small (toy) Reverse Polish Notation implementation. The core code is ~100
-lines long (and thus the code serves as adequate documentation).
+A small (toy) Reverse Polish Notation implementation. The core code is less
+than 100 lines long.
 
 polish uses float64 numbers throughout.
 
@@ -10,4 +10,6 @@ it can be run like:
 
 `calc 1 2 + 4 \* 3 /`
 
-Being that this is a toy/teaching implementation, polish is subject to change.
+Being that this is a toy/teaching implementation, polish is subject to change;
+if polish ever stabilizes enough for production use, it will be found at
+<github.com/xtgo/polish>.
