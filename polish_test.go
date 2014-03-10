@@ -16,7 +16,7 @@ func TestCorrectness(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	stack := p.Execute(nil)
+	stack := p.Run(nil)
 	if len(stack) != 1 || stack[0] != expect {
 		t.Fatal("Expected", []float64{expect}, "instead of", stack)
 	}
@@ -31,7 +31,7 @@ func TestCorrectness_prestack(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		stack = p.Execute(stack)
+		stack = p.Run(stack)
 	}
 	if len(stack) != 1 || stack[0] != expect {
 		t.Fatal("Expected", []float64{expect}, "instead of", stack)
@@ -51,7 +51,7 @@ func BenchmarkExec(b *testing.B) {
 	p, _ := Parse(strings.Fields(instructions))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		p.Execute(nil)
+		p.Run(nil)
 	}
 }
 

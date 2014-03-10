@@ -6,22 +6,22 @@ package polish
 
 import "strconv"
 
-type Executor interface {
-	Execute([]float64) []float64
+type Runner interface {
+	Run([]float64) []float64
 }
 
-type Program []Executor
+type Program []Runner
 
-func (p Program) Execute(stack []float64) []float64 {
+func (p Program) Run(stack []float64) []float64 {
 	for _, s := range p {
-		stack = s.Execute(stack)
+		stack = s.Run(stack)
 	}
 	return stack
 }
 
 type BinOp func(float64, float64) float64
 
-func (f BinOp) Execute(stack []float64) []float64 {
+func (f BinOp) Run(stack []float64) []float64 {
 	l := len(stack)
 	x, y, stack := stack[l-2], stack[l-1], stack[:l-2]
 	return append(stack, f(x, y))
@@ -34,7 +34,7 @@ func Div(x, y float64) float64 { return x / y }
 
 type Constant float64
 
-func (c Constant) Execute(stack []float64) []float64 {
+func (c Constant) Run(stack []float64) []float64 {
 	return append(stack, float64(c))
 }
 

@@ -16,7 +16,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Error:", err)
 		os.Exit(2)
 	}
-	stack := program.Execute(nil)
+	stack := program.Run(nil)
 	if len(stack) == 1 {
 		fmt.Println(stack[0])
 	} else {
