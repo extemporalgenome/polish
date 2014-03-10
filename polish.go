@@ -19,6 +19,12 @@ func (p Program) Run(stack []float64) []float64 {
 	return stack
 }
 
+type Constant float64
+
+func (c Constant) Run(stack []float64) []float64 {
+	return append(stack, float64(c))
+}
+
 type BinOp func(float64, float64) float64
 
 func (f BinOp) Run(stack []float64) []float64 {
@@ -31,12 +37,6 @@ func Add(x, y float64) float64 { return x + y }
 func Sub(x, y float64) float64 { return x - y }
 func Mul(x, y float64) float64 { return x * y }
 func Div(x, y float64) float64 { return x / y }
-
-type Constant float64
-
-func (c Constant) Run(stack []float64) []float64 {
-	return append(stack, float64(c))
-}
 
 func Parse(args []string) (p Program, err error) {
 	p = make(Program, len(args))
