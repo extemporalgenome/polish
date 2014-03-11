@@ -38,25 +38,25 @@ func Sub(x, y float64) float64 { return x - y }
 func Mul(x, y float64) float64 { return x * y }
 func Div(x, y float64) float64 { return x / y }
 
+var Dict = map[string]Runner{
+	"+": BinOp(Add),
+	"-": BinOp(Sub),
+	"*": BinOp(Mul),
+	"/": BinOp(Div),
+}
+
 func Parse(args []string) (p Program, err error) {
 	p = make(Program, len(args))
-	for i, str := range args {
-		switch str {
-		case "+":
-			p[i] = BinOp(Add)
-		case "-":
-			p[i] = BinOp(Sub)
-		case "*":
-			p[i] = BinOp(Mul)
-		case "/":
-			p[i] = BinOp(Div)
-		default:
-			n, err := strconv.ParseFloat(str, 64)
+	for i, arg := range args {
+		word, ok := Dict[arg]
+		if !ok {
+			n, err := strconv.ParseFloat(arg, 64)
 			if err != nil {
-				return p, err
+				return nil, err
 			}
-			p[i] = Constant(n)
+			word = Constant(n)
 		}
+		p[i] = word
 	}
 	return p, nil
 }
