@@ -29,7 +29,7 @@ type BinOp func(float64, float64) float64
 
 func (f BinOp) Run(stack []float64) []float64 {
 	l := len(stack)
-	x, y, stack := stack[l-2], stack[l-1], stack[:l-2]
+	stack, x, y := stack[:l-2], stack[l-2], stack[l-1]
 	return append(stack, f(x, y))
 }
 
