@@ -71,7 +71,7 @@ https://github.com/xtgo
 - Traditionally bootstrapped with assembly or machine code
 - Very portable: can fully port to a new architecture in hours
 - Fairly easy to rewrite entire environment from scratch; many Forth dialects
-- Has familiar RPN "words" like *, +, etc. Also adds many, many new words.
+- Has familiar RPN "words" like *, +, etc. Also adds many new words.
 - Ex: `dup` pushes onto the stack a copy of the top item
 
 * Forth (Part II)
