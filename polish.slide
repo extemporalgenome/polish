@@ -1,0 +1,88 @@
+Go Forth
+27 Mar 2014
+
+Kevin Gillette
+https://github.com/extemporalgenome
+https://github.com/xtgo
+
+* Polish Notation
+
+- Invented in 1924 by Polish logician Jan Łukasiewicz
+- Also called "Prefix Notation"
+- Example: "* 2 + 3 4" in infix notation is "2 * (3 + 4)"
+- Code reads like its AST; parse is trivial, no need for order of operations
+.image slide-data/ast.png
+
+* Polish Notation (cont'd)
+
+- Notably used in the Lisp family of languages
+- With fixed arity, parentheses are never necessary
+- However, Lisp has variable-arity arithmetic; parentheses abound
+- Example: "(+ 3 4 5)" in infix is "3 + 4 + 5"
+
+* Reverse Polish Notation
+
+- Independently proposed in the '50s and '60s; appeared on calculators in '70s
+- Also called "Postfix Notation"
+- Example: "2 3 4 + *" in infix is "2 * (3 + 4)"
+- Space/time efficient stack execution
+- Parse unnecessary: can execute directly as tokens are read
+
+* Implementing an RPN interpreter in Go (Part I)
+
+.code polish.go /^type Runner/,/^}/
+.code polish.go /^type Program/
+.code polish.go /^type Constant/
+.code polish.go /^type BinOp/
+.code polish.go /^func Add/,/^func Div/
+
+* Implementing an RPN interpreter in Go (Part II)
+
+.code polish.go /^func .. Program. Run/,/^}/
+.code polish.go /^func .. Constant. Run/,/^}/
+.code polish.go /^func .. BinOp. Run/,/^}/
+.image slide-data/stack.png
+
+* Implementing an RPN interpreter in Go (Part III)
+
+.code polish.go /^var Dict/,/^}/
+.code polish.go /^func Parse/,/^}/
+
+* Implementing an RPN interpreter in Go (Part IV)
+
+.play slide-data/rpn.go /^func main/+1,/^}/-1
+.image slide-data/op.png
+
+* Reverse Polish Notation (cont'd)
+
+- Used in many concatenative programming languages
+- Example: "h(g(f(x)))" becomes "f g h" (input is implicit)
+- The concatenation of symbols corresponds to a composition of functions
+
+* builtin/stdlib correlations
+
+- http.HandlerFunc. http.HandleFunc(f) is equivalent to http.Handle(http.HandlerFunc(f)).
+- The above use of HandlerFunc is a type conversion, not a function call.
+- Runner behaves analagously to append.
+
+* Forth (Part I)
+
+- Developed by Charles H. Moore in the late '60s
+- Traditionally bootstrapped with assembly or machine code
+- Very portable: can fully port to a new architecture in hours
+- Fairly easy to rewrite entire environment from scratch; many Forth dialects
+- Has familiar RPN "words" like *, +, etc. Also adds many, many new words.
+- Ex: `dup` pushes onto the stack a copy of the top item
+
+* Forth (Part II)
+
+.code slide-data/forth.go 15,36
+
+* Forth (Part III)
+
+.play slide-data/forth.go 38,
+
+* References
+
+.link http://en.wikipedia.org/wiki/Reverse_Polish_notation
+.link http://en.wikipedia.org/wiki/Polish_notation
