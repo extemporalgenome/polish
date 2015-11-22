@@ -45,18 +45,19 @@ var Dict = map[string]Runner{
 	"/": BinOp(Div),
 }
 
-func Parse(args []string) (p Program, err error) {
-	p = make(Program, len(args))
+func Parse(args []string) (Program, error) {
+	p := make(Program, len(args))
 	for i, arg := range args {
 		word, ok := Dict[arg]
-		if !ok {
-			n, err := strconv.ParseFloat(arg, 64)
-			if err != nil {
-				return nil, err
-			}
-			word = Constant(n)
+		if ok {
+			p[i] = word
+			continue
 		}
-		p[i] = word
+		n, err := strconv.ParseFloat(arg, 64)
+		if err != nil {
+			return nil, err
+		}
+		p[i] = Constant(n)
 	}
 	return p, nil
 }
